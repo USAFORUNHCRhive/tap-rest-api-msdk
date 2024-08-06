@@ -209,3 +209,28 @@ class RestAPIHeaderLinkPaginator(HeaderLinkPaginator):
             return parsed_url.query
 
         return None
+
+
+class RestAPISFMCPaginator(HeaderLinkPaginator):
+    def __init__(self, start_value: int = 1, jsonpath=None, **kwargs) -> None:
+        super().__init__(start_value, jsonpath, kwargs)
+        print(jsonpath)
+        self._jsonpath = jsonpath
+        
+    def get_next_url(seslf, response: requests.Response) -> str | None:
+        return f"https://mc3h30wnkrqg6l1s1rr74kv-ym54.rest.marketingcloudapis.com/data/{response.json().get("links").get("next")}"
+    
+     
+    # def get_next(self, response: requests.Response) -> bool:
+    #     """Return True if there are more pages to fetch.
+
+    #     Args:
+    #         response: The most recent response object.
+    #         jsonpath: An optional jsonpath to where the tokens are located in
+    #                   the response, defaults to `hasMore` in the response.
+
+    #     Returns:
+    #         Whether there are more pages to fetch.
+
+    #     """
+    #     return True if response.json().get("links").get("next") is not None else False
